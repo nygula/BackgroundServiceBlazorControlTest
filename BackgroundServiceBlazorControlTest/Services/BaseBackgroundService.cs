@@ -74,7 +74,9 @@ namespace BackgroundServiceBlazorControlTest.Services
             RaiseLog("服务已重启");
         }
 
-        protected void RaiseLog(string message)
+        protected abstract void RaiseLog(string message);
+
+        protected void RaiseLogToLoggerAndEvent(string message)
         {
             _logger.LogInformation(message);
             OnLog?.Invoke(message);

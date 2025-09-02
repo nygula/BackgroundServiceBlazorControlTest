@@ -70,18 +70,18 @@
         StateHasChanged();
     }
 
-    private IDisposable? _logSubscription;
-
     protected override void OnInitialized()
     {
+        // 加载历史日志
+        _logs = new List<string>(BackgroundService.GetLogs());
         BackgroundService.OnLog += AddLog;
     }
 
     private void AddLog(string log)
     {
-        _logs.Insert(0, $"[{DateTime.Now:HH:mm:ss}] {log}");
-        if (_logs.Count > 50)
-            _logs.RemoveRange(50, _logs.Count - 50);
+        _logs.Insert(0, log);
+        if (_logs.Count > 1000)
+            _logs.RemoveRange(1000, _logs.Count - 1000);
         InvokeAsync(StateHasChanged);
     }
 
