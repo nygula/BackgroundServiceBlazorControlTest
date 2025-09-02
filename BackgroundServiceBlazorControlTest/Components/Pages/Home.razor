@@ -1,0 +1,92 @@
+﻿@page "/"
+@using BackgroundServiceBlazorControlTest.Services
+@inject ControllableBackgroundService BackgroundService
+@inject ILogger<Index> Logger
+@rendermode InteractiveServer
+@implements IDisposable
+<PageTitle>后台服务控制中心</PageTitle>
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>后台服务控制器</h2>
+        </div>
+        <div class="card-body">
+            <div class="mb-4">
+                <h3>服务状态: <span style="color:@BackgroundService.StatusColor">@BackgroundService.Status</span></h3>
+                <p>最后活动时间: @(BackgroundService.LastActivity?.ToString("yyyy-MM-dd HH:mm:ss") ?? "从未活动")</p>
+            </div>
+
+            <div class="d-flex gap-3">
+                <button class="btn btn-success"
+                        @onclick="StartService"
+                        disabled="@IsServiceRunning">
+                    启动服务
+                </button>
+                <button class="btn btn-danger"
+                        @onclick="StopService"
+                        disabled="@IsServiceStopped">
+                    停止服务
+                </button>
+                <button class="btn btn-warning"
+                        @onclick="RestartService">
+                    重启服务
+                </button>
+            </div>
+
+            <div class="mt-5">
+                <h4>服务日志</h4>
+                <div class="border p-3 bg-light" style="height: 300px; overflow-y: auto;">
+                    @foreach (var log in _logs)
+                    {
+                        <p class="mb-1 small">@log</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private List<string> _logs = new List<string>();
+    private bool IsServiceStopped => !BackgroundService.IsRunning;
+
+    private bool IsServiceRunning => BackgroundService.IsRunning;
+
+    private async Task StartService()
+    {
+        await BackgroundService.StartAsync();
+        StateHasChanged();
+    }
+
+    private async Task StopService()
+    {
+        await BackgroundService.StopAsync();
+        StateHasChanged();
+    }
+
+    private async Task RestartService()
+    {
+        await BackgroundService.RestartAsync();
+        StateHasChanged();
+    }
+
+    private IDisposable? _logSubscription;
+
+    protected override void OnInitialized()
+    {
+        BackgroundService.OnLog += AddLog;
+    }
+
+    private void AddLog(string log)
+    {
+        _logs.Insert(0, $"[{DateTime.Now:HH:mm:ss}] {log}");
+        if (_logs.Count > 50)
+            _logs.RemoveRange(50, _logs.Count - 50);
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        BackgroundService.OnLog -= AddLog;
+    }
+}
