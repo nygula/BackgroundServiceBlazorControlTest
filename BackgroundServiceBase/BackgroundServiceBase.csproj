@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>BackgroundServiceBase</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>nygula</Authors>
+    <Company>nygula</Company>
+    <Description>通用可控后台服务基类，适用于 Blazor、ASP.NET Core 等 .NET 项目。</Description>
+    <PackageTags>BackgroundService;Blazor;ASP.NET;Hosting;Service;Logging</PackageTags>
+    <RepositoryUrl>https://github.com/nygula/BackgroundServiceBlazorControlTest</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/nygula/BackgroundServiceBlazorControlTest</PackageProjectUrl>
+    <Copyright>Copyright © 2024 nygula</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.8" />
+  </ItemGroup>
+
+</Project>
