@@ -1,17 +1,17 @@
 # BackgroundServiceBase
 
-Í¨ÓÃ¿É¿ØºóÌ¨·şÎñ»ùÀà£¬ÊÊÓÃÓÚ Blazor¡¢ASP.NET Core µÈ .NET ÏîÄ¿¡£
+é€šç”¨å¯æ§åå°æœåŠ¡åŸºç±»ï¼Œé€‚ç”¨äº Blazorã€ASP.NET Core ç­‰ .NET é¡¹ç›®ã€‚
 
-## °²×°
+## å®‰è£…
 
-Í¨¹ı NuGet °²×°£¨·¢²¼ºó£©£º
+é€šè¿‡ NuGet å®‰è£…ï¼ˆå‘å¸ƒåï¼‰ï¼š
 ```
 dotnet add package BackgroundServiceBase
 ```
 
-## ÓÃ·¨Ê¾Àı
+## ç”¨æ³•ç¤ºä¾‹
 
-1. ¼Ì³Ğ `BaseBackgroundService`£¬ÊµÏÖÄãµÄºóÌ¨ÈÎÎñÂß¼­£º
+1. ç»§æ‰¿ `BaseBackgroundService`ï¼Œå®ç°ä½ çš„åå°ä»»åŠ¡é€»è¾‘ï¼š
 
 ```csharp
 using BackgroundServiceBase;
@@ -25,32 +25,32 @@ public class MyBackgroundService : BaseBackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        EnqueueLog("·şÎñ¿ªÊ¼Ö´ĞĞ");
+        EnqueueLog("æœåŠ¡å¼€å§‹æ‰§è¡Œ");
         while (!stoppingToken.IsCancellationRequested)
         {
-            // ÄãµÄÈÎÎñÂß¼­
-            EnqueueLog("·şÎñÕıÔÚÔËĞĞ...");
+            // ä½ çš„ä»»åŠ¡é€»è¾‘
+            EnqueueLog("æœåŠ¡æ­£åœ¨è¿è¡Œ...");
             await Task.Delay(1000, stoppingToken);
         }
-        EnqueueLog("·şÎñÒÑÍ£Ö¹");
+        EnqueueLog("æœåŠ¡å·²åœæ­¢");
     }
 }
 ```
 
-2. ÔÚ DI ÈİÆ÷ÖĞ×¢²áÄãµÄ·şÎñ£¨Èç Blazor/ASP.NET Core£©£º
+2. åœ¨ DI å®¹å™¨ä¸­æ³¨å†Œä½ çš„æœåŠ¡ï¼ˆå¦‚ Blazor/ASP.NET Coreï¼‰ï¼š
 
 ```csharp
 builder.Services.AddSingleton<MyBackgroundService>();
 ```
 
-3. ÔÚÒ³Ãæ»ò×é¼şÖĞ×¢Èë²¢¿ØÖÆ·şÎñ£º
+3. åœ¨é¡µé¢æˆ–ç»„ä»¶ä¸­æ³¨å…¥å¹¶æ§åˆ¶æœåŠ¡ï¼š
 
 ```csharp
 @inject MyBackgroundService BackgroundService
 
-<button @onclick="BackgroundService.StartAsync">Æô¶¯</button>
-<button @onclick="BackgroundService.StopAsync">Í£Ö¹</button>
-<button @onclick="BackgroundService.RestartAsync">ÖØÆô</button>
+<button @onclick="BackgroundService.StartAsync">å¯åŠ¨</button>
+<button @onclick="BackgroundService.StopAsync">åœæ­¢</button>
+<button @onclick="BackgroundService.RestartAsync">é‡å¯</button>
 
 @foreach (var log in BackgroundService.GetLogs())
 {
@@ -58,14 +58,14 @@ builder.Services.AddSingleton<MyBackgroundService>();
 }
 ```
 
-## ÌØĞÔ
-- Ö§³Ö·şÎñÆô¶¯¡¢Í£Ö¹¡¢ÖØÆô
-- ÈÕÖ¾×Ô¶¯´æ´¢£¨×î¶à1000Ìõ£©£¬¿ÉÓÃÓÚÒ³ÃæÕ¹Ê¾
-- Ïß³Ì°²È«£¬ÊÊºÏ¸ß²¢·¢³¡¾°
-- ÊÂ¼ş·Ö·¢£¬Ö§³ÖÈÕÖ¾ÊµÊ±ÍÆËÍ
+## ç‰¹æ€§
+- æ”¯æŒæœåŠ¡å¯åŠ¨ã€åœæ­¢ã€é‡å¯
+- æ—¥å¿—è‡ªåŠ¨å­˜å‚¨ï¼ˆæœ€å¤š1000æ¡ï¼‰ï¼Œå¯ç”¨äºé¡µé¢å±•ç¤º
+- çº¿ç¨‹å®‰å…¨ï¼Œé€‚åˆé«˜å¹¶å‘åœºæ™¯
+- äº‹ä»¶åˆ†å‘ï¼Œæ”¯æŒæ—¥å¿—å®æ—¶æ¨é€
 
 ## License
 MIT
 
-## ²Ö¿â
+## ä»“åº“
 https://github.com/nygula/BackgroundServiceBlazorControlTest
